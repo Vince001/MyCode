@@ -1,0 +1,87 @@
+#include <iostream>
+#include <vector>
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
+
+#define Max(a,b) (a>b?a:b)
+
+typedef unsigned int UINT;
+typedef unsigned long ULONG;
+
+UINT GetLCM(UINT a,UINT b)
+{
+	ULONG mult = a*b;
+	UINT ret = 0;
+	UINT max = Max(a,b);
+
+	for (ULONG i=max; i<=mult; i+=max)
+	{
+		if ((i%a==0) && (i%b==0))
+		{
+			ret = (UINT)i;
+			break;
+		}
+	}
+
+	return ret;
+}
+
+void Foo() {
+	UINT a=0,b=0;
+	cout << "GetLCM test routine. Input a '0' will exit." << endl << endl;
+	
+	vector< vector<UINT> > t_array(3, vector<UINT>() );
+	t_array[0].push_back( 3 );	t_array[1].push_back( 5 );	t_array[2].push_back( 15 );
+	t_array[0].push_back( 15 );	t_array[1].push_back( 16 );	t_array[2].push_back( 240 );
+	t_array[0].push_back( 4 );	t_array[1].push_back( 16 );	t_array[2].push_back( 16 );
+	
+	for (UINT i=0; i<t_array[0].size(); i++)
+	{
+		cout <<  "a:" << t_array[0][i] 
+		     << " b:" << t_array[1][i] 
+		     << " Expect:" << t_array[2][i] 
+		     << " LCM:"
+			 << GetLCM(t_array[0][i],t_array[1][i]);
+		cout << "  >>" ;
+	    cout << (t_array[2][i]==GetLCM(t_array[0][i],t_array[1][i])?"OK":"NG") << endl;
+	}
+	
+	cout << endl;
+	
+	while(1)
+	{
+	    cout << "Input LCM:" << endl;
+	    cout << "a:" << std::flush;
+	    cin >> a;
+	    cout << "b:" << std::flush;
+	    cin >> b;
+	    if ((a==0) || (b==0)) 
+		    break;
+	    cout << "a:" << a << " b:" << b << " LCM:" << GetLCM(a,b) << endl << endl;
+    }
+    
+    cout << "Exit Foo() >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
+}
+
+int main(int argc, char** argv) {
+	char input = 0;
+	
+	cout << "Hello! This is a console application." << endl;
+	cout << "Press q to quit, press a to execute foo." << endl;	
+	while(1) {
+		cin >> input;
+		if(input == 'a') {
+			Foo();
+		} else if(input == 'q') {
+			break;
+		} else if(input != '\n') {
+			cout << "Unknown command '" << input << "'! Ignoring...\n";
+		}
+		
+		input = 0;
+	}
+
+	return 0;
+}
